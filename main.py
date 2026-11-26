@@ -9,6 +9,11 @@ Run: python3 main.py
 
 import os
 
+MAX_CHARS = 120  # sealed gate: entry must be 1-120 chars, UTF-8, one line
+
+# The line, written to be judged as a real one-star review: a deadpan,
+# Moon-only grievance (night shifts + monthly phases + the tides it causes),
+# steering clear of the obvious crater/cheese/brightness jokes.
 REVIEW = (
     "One star. Works nights only, calls in sick for a week every month, "
     "and still takes credit for the tides."
@@ -41,7 +46,9 @@ def write_entry(line: str) -> str:
 
 def main() -> None:
     line = REVIEW.strip()
-    assert 1 <= len(line) <= 120, f"entry is {len(line)} chars, must be 1-120"
+    assert 1 <= len(line) <= MAX_CHARS, (
+        f"entry is {len(line)} chars, must be 1-{MAX_CHARS}"
+    )
     assert "\n" not in line, "entry must be a single line"
     out_path = write_entry(line)
     print(f"Wrote {len(line)} chars to {out_path}")
